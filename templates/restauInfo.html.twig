@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Restaufa</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="{{ asset('css/other/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ asset('css/bts.css') }}"> {# asset done #}
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+  <!-- Page Content -->
+
+
+      <!-- /.col-lg-3 -->
+
+          <img class="card-img-top img-fluid" src="http://placehold.it/900x400" alt="">
+          <div class="card-body">
+            <h3 class="card-title">{{ restau.getRestauName }}</h3>
+            <h4>Description</h4>
+            <p class="card-text">{{ restau.getRestauDescription }}</p>
+            <span class="text-warning">
+          
+
+                {% if  restau.getRate != NULL%}
+                {% for i in 1..restau.getRate %}
+
+                    &#9733;
+
+                {% endfor %}
+
+                {% if  restau.getRate == 1%}
+
+                &#9734;&#9734;&#9734;&#9734;
+
+                {% elseif  restau.getRate == 2%}
+
+                &#9734;&#9734;&#9734;
+
+                {% elseif  restau.getRate == 3%}
+
+                &#9734;&#9734;
+
+                {% elseif  restau.getRate == 4%}
+
+                &#9734;
+
+                {% endif %}
+
+            {% endif %}
+
+            </span>
+            {{ restau.getRate }} stars
+
+        </div>
+
+              <div class="map">
+              
+        <iframe style="border:0; width: 100%; height: 550px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12762.686598511908!2d10.1923343!3d36.8982026!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xcf369d3af5474b44!2sUniversit%C3%A9%20SESAME!5e0!3m2!1sfr!2stn!4v1608996550666!5m2!1sfr!2stns" frameborder="0" allowfullscreen></iframe>
+      
+      </div>
+
+      <div class="container mt-5">
+
+        <div class="info-wrap">
+          <div class="row">
+
+            <div class="col-lg-3 col-md-6 info mt-4 mt-lg-0">
+              <i class="icofont-envelope"></i>
+              <img class="card-img-top img-fluid" src="uploads/d1f852853190d5d50ff96fc31e352868.jpeg" alt="">
+              <h4>Email:</h4>
+              <p>{{ restau.getRestauMail }}</p>
+            </div>
+
+            <div class="col-lg-3 col-md-6 info mt-4 mt-lg-0">
+              <i class="icofont-phone"></i>
+              <h4>Call:</h4>
+              <p>{{ restau.getRestauPhone }}</p>
+            </div>
+          </div>
+        </div>
+
+
+        <!-- /.card -->
+
+        <div class="card card-outline-secondary my-4">
+          <div class="card-header">
+            Product Reviews
+          </div>
+          <div class="card-body">
+
+      <section id="commentaires">
+
+        {% for comment in restau.getComments() %}
+
+        <div class="row">
+            <div class="col-sm-1"><img  src="https://placehold.it/150x150" class="w-100 rounded-circle"/></div>
+            <div class="col-md-10">
+
+                <h4>{{comment.username}}</h4>
+                <p>{{comment.content}}</p>
+              
+              <span class="text-warning">
+
+                {% if  comment.getUserrate != NULL%}
+                {% for i in 1..comment.getUserrate %}
+
+                    &#9733;
+
+                {% endfor %}
+
+                {% if  comment.getUserrate == 1%}
+
+                &#9734;&#9734;&#9734;&#9734;
+
+                {% elseif  comment.getUserrate == 2%}
+
+                &#9734;&#9734;&#9734;
+
+                {% elseif  comment.getUserrate == 3%}
+
+                &#9734;&#9734;
+
+                {% elseif  comment.getUserrate == 4%}
+
+                &#9734;
+
+                {% endif %}
+
+            {% endif %}
+              
+              </span>
+
+              <br><br>
+
+              {{comment.createdAt | date ('d/m/Y à H:i')}}
+
+            </div>
+        </div>
+
+        <hr>
+
+        {% endfor %}
+
+        </section>
+
+        {% if app.user %}
+            {% if app.user.getType == 1%}
+            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Leave a Review</a>
+          {% endif %}
+        {% endif %}
+          </div>
+        </div>
+
+        
+        <!-- /.card -->
+
+
+      <!-- /.col-lg-9 -->
+
+  <!-- /.container -->
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ form_start(form) }}
+        
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Rate: (1-5)</label>
+            {{form_row(form.userrate , {'label' : ' ' , 'attr' : 
+            {'placeholder' : 'Rate' , 'class' : 'form-control' , 'max' : 5 , 'min' : 1}})}}
+          </div>
+          
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Message:</label>
+            {{form_row(form.content , {'label' : ' ' , 'attr' : 
+            {'placeholder' : 'content' , 'class' : 'form-control'}})}}
+            </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-primary">Send Rate</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{ form_end(form) }}
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+
+
+
+</body>
+
+</html>

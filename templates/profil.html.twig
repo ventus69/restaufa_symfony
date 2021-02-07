@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+	<link rel="icon" type="image/png" href="assets/img/favicon.png">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<title>RESTAUFA</title>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+	<!--     Fonts and icons     -->
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.css" rel="stylesheet">
+
+	<!-- CSS Files -->
+    <link href="{{ asset('profil/css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('profil/css/gsdk-bootstrap-wizard.css') }}" rel="stylesheet" />
+
+	<!-- CSS Just for demo purpose, don't include it in your project -->
+    <link href="{{ asset('profil/css/demo.css') }}" rel="stylesheet" />
+
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">    
+	<!-- Site CSS -->
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">    
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
+    
+    <style>
+        body {
+          background-image: url('{{ asset('profil/img/wizard.jpg') }}');
+          background-repeat: no-repeat;
+          background-attachment: fixed; 
+          background-size: 100% 100%;
+        }
+        </style>
+</head>
+
+<body>
+
+
+	<!-- Start header -->
+	<header class="top-navbar">
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<div class="container">
+				<a class="navbar-brand" href="index.html">
+					<img src="{{ asset('images/logoo.png') }}" width="20%" heigth="20%" alt="" />
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars-rs-food" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+				  <span class="navbar-toggler-icon"></span>
+				</button>
+				<div class="collapse navbar-collapse" id="navbars-rs-food">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item"><a class="nav-link" href="{{ path('home') }}">Home</a></li>
+						{% if app.user %}
+
+						{% if app.user.getType() == 1 %}
+						<li class="nav-item active"><a class="nav-link" href="../profil/{{app.user.getId}}">Profil</a></li>
+						
+						{% elseif app.user.getType() == 2 %}
+						<li class="nav-item"><a class="nav-link" href="../profilRestau/{{app.user.getId}}">Profil</a></li>
+
+						{% endif %}
+						{% endif %}
+						<li class="nav-item"><a class="nav-link" href="{{ path('viewRestau') }}">View Restaurants</a></li>
+						<li class="nav-item"><a class="nav-link" href="{{ path('about') }}">About</a></li>
+
+						{% if not app.user %}
+            	<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">Sign Up</a>
+							<div class="dropdown-menu" aria-labelledby="dropdown-a">
+								<a class="dropdown-item" href="{{ path('signUpClient') }}">Client</a>
+								<a class="dropdown-item" href="{{ path('signUpRestau') }}">Restaurant</a>
+							</div>
+						</li>
+						<li class="nav-item"><a class="nav-link" href="{{ path('login') }}">Sign In</a></li>
+						{% else %}
+						<li class="nav-item"><a class="nav-link" href="{{ path('logout') }}">Logout</a></li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</nav>
+	</header>
+	<!-- End header -->
+    
+
+    <!--   Big container   -->
+
+    <div class="container">
+        <div class="row">
+        <div class="col-sm-8 col-sm-offset-2">
+
+            <!--      Wizard container        -->
+            <div class="wizard-container">
+
+                <div class="card wizard-card" data-color="orange" id="wizardProfile">
+                    {{ form_start(form) }}
+                
+
+                    
+
+						<div class="wizard-navigation">
+							<ul>
+	                            <li><a id="prof" href="#about" data-toggle="tab">Profil</a></li>
+	                            
+	                        </ul>
+
+						</div>
+
+                        <div class="tab-content">
+                            <div class="tab-pane" id="about">
+                              <div class="row">
+                                  <h4 class="info-text"> </h4>
+                                  <div class="col-sm-4 col-sm-offset-1">
+                                     <div class="picture-container">
+                                          <div class="picture">
+
+                                              <img src="{{ asset( 'uploads/'~img) }}" name="image" class="picture-src" id="wizardPicturePreview" title=""/>
+
+
+                                            {{form_row(form.user_photo , {'label' : ' ', 'id': 'wizard-picture'})}}
+                                          </div>
+                                          <h6>Choose Picture</h6>
+                                      </div>
+                                  </div>
+                                  <div class="col-sm-6">
+                                      <div class="form-group">
+                                        <label>Full Name : <small></small></label><br>
+                                        <label><small>{{form_row(form.fullname , {'label' : ' ' , 'attr' : 
+                                        {'placeholder' : 'Full Name' , 'class' : 'form-control'}})}}</small></label>
+                                      </div>
+                                      <div class="form-group">
+                                          <label>Phone Number : <small></small></label><br>
+                                          <label> <small>{{form_row(form.user_phone , {'label' : ' ', 'attr' : 
+                                        {'placeholder' : 'Phone Number' , 'class' : 'form-control'}})}}</small></label>
+                                      </div>
+                                          <div class="form-group">
+                                          <label>Email : <small></small></label><br>
+                                          <label><small>{{form_row(form.email , {'label' : ' ', 'attr' : 
+                                        {'placeholder' : 'Email' , 'class' : 'form-control' , 'readonly' : true}})}}</small></label>
+                                      </div>
+                                          <div class="form-group">
+                                          <label>Password : <small></small></label><br>
+                                          <label><small>{{form_row(form.password_user , {'label' : ' ', 'attr' : 
+                                        {'placeholder' : 'Password' , 'class' : 'form-control'}})}}</small></label>
+                                      </div>
+
+                                          <div class="form-group">
+                                          <label>Confirm Password : <small></small></label><br>
+                                          <label><small>{{form_row(form.confirm_password_user , {'label' : ' ', 'attr' : 
+                                        {'placeholder' : 'Confirm Password' , 'class' : 'form-control'}})}}</small></label>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                           
+                            
+                        </div>
+
+       <div id="simpleform"> 
+   </div>  
+                        <center><button type="submit" class="btn btn-primary">Save Change</button></center>
+
+                            <div class="clearfix"></div>
+                        </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div> <!-- wizard container -->
+        </div>
+        </div><!-- end row -->
+    </div> <!--  big container -->
+
+    <br>
+            
+
+
+   
+
+</div>
+
+</body>
+
+	<!--   Core JS Files   -->
+	<script src="{{ asset('profil/js/jquery-2.2.4.min.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('profil/js/bootstrap.min.js') }}" type="text/javascript"></script>
+	<script src="{{ asset('profil/js/jquery.bootstrap.wizard.js') }}" type="text/javascript"></script>
+
+	<!--  Plugin for the Wizard -->
+	<script src="{{ asset('profil/js/gsdk-bootstrap-wizard.js') }}"></script>
+
+	<!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
+	<script src="{{ asset('profil/js/jquery.validate.min.js') }}"></script>
+
+</html>
